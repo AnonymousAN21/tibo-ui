@@ -1,5 +1,43 @@
 const API_URL = "http://localhost:3000"; // or your deployed URL
 let token = null;
+// Switch between login and register
+document.getElementById("show-register").addEventListener("click", () => {
+  document.querySelector(".auth-container").style.display = "none";
+  document.querySelector(".register-container").style.display = "block";
+});
+
+document.getElementById("show-login").addEventListener("click", () => {
+  document.querySelector(".register-container").style.display = "none";
+  document.querySelector(".auth-container").style.display = "block";
+});
+
+document.getElementById("register-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("register-name").value;
+  const email = document.getElementById("register-email").value;
+  const password = document.getElementById("register-password").value;
+
+  try {
+    const res = await fetch(`${API_URL}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Berhasil daftar! Silakan login.");
+      document.querySelector(".register-container").style.display = "none";
+      document.querySelector(".auth-container").style.display = "block";
+    } else {
+      alert(data.error || "Gagal daftar");
+    }
+  } catch (err) {
+    alert("Gagal konek ke server");
+  }
+});
 
 document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
