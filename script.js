@@ -1,4 +1,4 @@
-const API_URL = "https://tibo-api-production.up.railway.app/"; // or your deployed URL
+const API_URL = "https://tibo-api-production.up.railway.app"; // or your deployed URL
 let token = null;
 // Switch between login and register
 document.getElementById("show-register").addEventListener("click", () => {
