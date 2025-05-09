@@ -125,7 +125,7 @@ document.getElementById("logout-btn").addEventListener("click", () => {
 
 async function getProfile() {
   try {
-    const res = await fetch(`${API_URL}/profile`, {
+    const res = await fetch(`${API_URL}/api/profile`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
