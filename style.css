@@ -1,0 +1,179 @@
+/* Reset + layout */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #eaeef1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.chat-container {
+  width: 100%;
+  max-width: 450px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.chat-log {
+  flex-grow: 1;
+  padding: 16px;
+  overflow-y: auto;
+  max-height: 400px;
+  background: #f9f9f9;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 12px;
+  max-width: 100%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.message-content {
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  border-radius: 18px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.user .message-content {
+  background: #dcf8c6;
+  border-bottom-right-radius: 0;
+  text-align: right;
+}
+
+.message.bot {
+  justify-content: flex-start;
+}
+
+.message.bot .message-content {
+  background: #e6efff;
+  color: #007bff;
+  border-bottom-left-radius: 0;
+  text-align: left;
+}
+
+.typing-indicator {
+  font-style: italic;
+  opacity: 0.6;
+  animation: blink 1.2s infinite;
+}
+
+.chat-form {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.chat-form input {
+  flex: 1;
+  border: none;
+  padding: 14px;
+  font-size: 15px;
+  outline: none;
+}
+
+.chat-form button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.chat-form button:hover {
+  background: #0056cc;
+}
+
+/* Auth + Profile */
+.auth-container,
+.profile-container {
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 16px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  padding: 10px;
+  width: 90%;
+  margin: 5px auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  display: block;
+  font-size: 14px;
+}
+
+button {
+  border: none;
+  padding: 10px 16px;
+  background: #007bff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #0056cc;
+}
+
+/* Bot avatar animation */
+.bot-avatar {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 10px;
+  background: url("https://cdn-icons-png.flaticon.com/512/4712/4712107.png") no-repeat center/cover;
+  animation: float 3s ease-in-out infinite;
+}
+
+.guide-text {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 10px 0;
+  color: #555;
+}
+
+/* Animations */
+@keyframes blink {
+  0% { opacity: 0.2 }
+  50% { opacity: 1 }
+  100% { opacity: 0.2 }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .chat-container, .auth-container, .profile-container {
+    width: 100%;
+  }
+}

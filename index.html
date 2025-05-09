@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat with Tibo</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Login ke Tibo</h2>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Email" required />
+      <input type="password" id="login-password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <div class="profile-container" style="display: none;">
+    <div class="bot-avatar"></div>
+    <h3 id="welcome-text">Hi, User!</h3>
+    <p class="guide-text">
+      ✨ Tanyakan apa saja ke Tibo.<br/>
+      Kamu juga bisa ajari dia dengan pola:<br/>
+      <em>"catat 'presiden' itu 'Jokowi'"</em><br/>
+      atau <em>"inga 'ibukota indonesia' jawabannya 'Jakarta'"</em>
+    </p>
+    <button id="logout-btn">Logout</button>
+  </div>
+
+  <div class="chat-container" style="display: none;">
+    <div id="chat-log" class="chat-log"></div>
+    <form id="chat-form" class="chat-form">
+      <input type="text" id="chat-input" placeholder="Ketik pesan..." autocomplete="off" />
+      <button type="submit">Kirim</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
