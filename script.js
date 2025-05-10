@@ -162,13 +162,6 @@ document.getElementById("chat-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const input = document.getElementById("chat-input").value;
-  const kalimatMatch = data.response.match(/\"(.+)\"/); // Ambil kalimat di dalam tanda kutip
-  const generatedKalimat = kalimatMatch ? kalimatMatch[1] : null;
-
-  setTimeout(() => {
-    log.removeChild(typingDiv);
-    addMessage("bot", data.response, generatedKalimat);
-  }, 600);
 
   if (!input.trim()) return;
 
@@ -197,11 +190,14 @@ document.getElementById("chat-form").addEventListener("submit", async (e) => {
   });
 
   const data = await res.json();
+  const kalimatMatch = data.response.match(/\"(.+)\"/); // Ambil kalimat di dalam tanda kutip
+  const generatedKalimat = kalimatMatch ? kalimatMatch[1] : null;
 
   setTimeout(() => {
     log.removeChild(typingDiv);
-    addMessage("bot", data.response);
+    addMessage("bot", data.response, generatedKalimat);
   }, 600);
+
 });
 
 
