@@ -67,6 +67,42 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   }
 });
 
+document.getElementById("download-progress-btn").addEventListener("click", async () => {
+  if (!token) {
+    alert("Kamu harus login dulu untuk mengunduh progres.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/export-learned`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      const blob = new Blob([JSON.stringify(data.data, null, 2)], {
+        type: "application/json"
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "tibo-learned.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } else {
+      alert(data.error || "Gagal mengekspor data");
+    }
+  } catch (err) {
+    alert("Terjadi kesalahan saat mengunduh data.");
+  }
+});
+
+
 document.getElementById("chat-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
