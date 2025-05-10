@@ -213,8 +213,44 @@ function addMessage(role, text) {
   const bubble = document.createElement("div");
   bubble.className = "message-content";
   bubble.textContent = text;
-
   wrapper.appendChild(bubble);
+
+  // Cek jika ini adalah kalimat Tibo yang bisa dirating
+  if (role === "bot" && text.startsWith("Aku coba ya: \"")) {
+    const kalimat = text.match(/\"(.*?)\"/)?.[1];
+    if (kalimat) {
+      const ratingDiv = document.createElement("div");
+      ratingDiv.style.marginTop = "5px";
+
+      [1, 2, 3, 4, 5].forEach(score => {
+        const btn = document.createElement("button");
+        btn.textContent = `⭐${score}`;
+        btn.style.marginRight = "5px";
+        btn.onclick = async () => {
+          try {
+            const res = await fetch(`${API_URL}/vote-created`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                ...(token && { Authorization: `Bearer ${token}` })
+              },
+              body: JSON.stringify({ kalimat, score })
+            });
+
+            const result = await res.json();
+            alert(`Rating disimpan! Rata-rata sekarang: ${result.averageScore}%`);
+            ratingDiv.remove(); // hilangkan tombol setelah rating
+          } catch (err) {
+            alert("Gagal menyimpan rating.");
+          }
+        };
+        ratingDiv.appendChild(btn);
+      });
+
+      wrapper.appendChild(ratingDiv);
+    }
+  }
+
   log.appendChild(wrapper);
   log.scrollTop = log.scrollHeight;
 }
