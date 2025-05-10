@@ -83,12 +83,17 @@ document.getElementById("chat-form").addEventListener("submit", async (e) => {
   log.appendChild(typingDiv);
   log.scrollTop = log.scrollHeight;
 
+  const headers = {
+    "Content-Type": "application/json"
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const res = await fetch(`${API_URL}/chat`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
+    headers,
     body: JSON.stringify({ message: input })
   });
 
@@ -99,6 +104,7 @@ document.getElementById("chat-form").addEventListener("submit", async (e) => {
     addMessage("bot", data.response);
   }, 600);
 });
+
 
 function addMessage(role, text) {
   const log = document.getElementById("chat-log");
