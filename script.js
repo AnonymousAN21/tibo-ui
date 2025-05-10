@@ -11,6 +11,61 @@ document.getElementById("show-login").addEventListener("click", () => {
   document.querySelector(".auth-container").style.display = "block";
 });
 
+function addMessage(role, text, kalimat = null) {
+  const log = document.getElementById("chat-log");
+  const wrapper = document.createElement("div");
+  wrapper.className = `message ${role}`;
+
+  const bubble = document.createElement("div");
+  bubble.className = "message-content";
+  bubble.textContent = text;
+
+  wrapper.appendChild(bubble);
+
+  // Tambahkan tombol vote jika ini kalimat yang dibuat
+  if (role === "bot" && kalimat) {
+    const voteContainer = document.createElement("div");
+    voteContainer.className = "vote-container";
+
+    const prompt = document.createElement("p");
+    prompt.textContent = "Nilai kalimat ini:";
+    voteContainer.appendChild(prompt);
+
+    [1, 2, 3, 4, 5].forEach((score) => {
+      const btn = document.createElement("button");
+      btn.textContent = score;
+      btn.onclick = async () => {
+        try {
+          const headers = {
+            "Content-Type": "application/json",
+          };
+          if (token) headers["Authorization"] = `Bearer ${token}`;
+
+          const res = await fetch(`${API_URL}/vote-created`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ kalimat, score }),
+          });
+          const data = await res.json();
+          alert(`Terima kasih! Skor rata-rata sekarang: ${data.averageScore}`);
+        } catch (err) {
+          alert("Gagal mengirim vote.");
+        }
+      };
+      voteContainer.appendChild(btn);
+    });
+
+    wrapper.appendChild(voteContainer);
+  }
+
+  log.appendChild(wrapper);
+  log.scrollTop = log.scrollHeight;
+}
+
+
+
+
+
 document.getElementById("register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -107,6 +162,14 @@ document.getElementById("chat-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const input = document.getElementById("chat-input").value;
+  const kalimatMatch = data.response.match(/\"(.+)\"/); // Ambil kalimat di dalam tanda kutip
+  const generatedKalimat = kalimatMatch ? kalimatMatch[1] : null;
+
+  setTimeout(() => {
+    log.removeChild(typingDiv);
+    addMessage("bot", data.response, generatedKalimat);
+  }, 600);
+
   if (!input.trim()) return;
 
   addMessage("user", input);
@@ -179,3 +242,10 @@ async function getProfile() {
     console.warn("Profile gagal dimuat");
   }
 }
+
+document.getElementById("skip-login").addEventListener("click", () => {
+  token = null; // tanpa token
+  document.querySelector(".auth-container").style.display = "none";
+  document.querySelector(".chat-container").style.display = "flex";
+  document.querySelector(".profile-container").style.display = "none";
+});
