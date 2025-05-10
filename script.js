@@ -190,13 +190,15 @@ document.getElementById("chat-form").addEventListener("submit", async (e) => {
   });
 
   const data = await res.json();
-  const kalimatMatch = data.response.match(/\"(.+)\"/); // Ambil kalimat di dalam tanda kutip
+  const isGenerated = data.response.includes("Aku coba ya:");
+  const kalimatMatch = isGenerated ? data.response.match(/\"(.+?)\"/) : null;
   const generatedKalimat = kalimatMatch ? kalimatMatch[1] : null;
-
+  
   setTimeout(() => {
     log.removeChild(typingDiv);
     addMessage("bot", data.response, generatedKalimat);
   }, 600);
+  
 
 });
 
